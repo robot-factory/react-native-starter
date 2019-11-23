@@ -4,7 +4,7 @@ import {observable} from 'mobx'
 import {observer} from 'mobx-react'
 
 export interface Props {
-  name: string
+  name?: string
   enthusiasmLevel?: number
   onIncrement?: () => void
   onDecrement?: () => void
@@ -16,13 +16,14 @@ interface State {
 
 @observer
 export default class Hello extends React.Component<Props, State> {
+  name='day'
   @observable
   count: number = 1
 
   constructor(props: Props) {
     super(props)
 
-    if ((props.enthusiasmLevel || 0) <= 0) {
+    if ((props.enthusiasmLevel || 0) < 0) {
       throw new Error('You could be a little more enthusiastic. :D')
     }
 
@@ -48,7 +49,7 @@ export default class Hello extends React.Component<Props, State> {
       <View style={styles.root}>
         <Text style={styles.greeting}>
           Hello{' '}
-          {this.props.name +
+          {this.name +
             this.getExclamationMarks(this.state.enthusiasmLevel)}
         </Text>
 
