@@ -1,22 +1,9 @@
 // import React,{ Component } from 'react';
 import {createAppContainer} from 'react-navigation'
 import {createStackNavigator} from 'react-navigation-stack'
-import Hello from './pages/HelloPage'
-import DetailPage from './pages/DetailPage'
+import {routeConfigMap, stackConfig} from './routes'
 
-const RootStack = createStackNavigator(
-  {
-    Home: {
-      screen: DetailPage,
-    },
-    Details: {
-      screen: Hello,
-    },
-  },
-  {
-    initialRouteName: 'Home',
-  },
-)
+const RootStack = createStackNavigator(routeConfigMap, stackConfig)
 const App = createAppContainer(RootStack)
 
 export default App
