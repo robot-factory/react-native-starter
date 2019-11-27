@@ -32,6 +32,9 @@ const styles = StyleSheet.create({
 })
 
 class DetailsScreen extends StackView {
+  componentWillUnmount() {
+    console.warn('DetailsScreen will unmount')
+  }
   render() {
     return (
       <View style={detailBg}>

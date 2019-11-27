@@ -2,7 +2,21 @@ import React from 'react'
 import { View, Text, Button } from 'react-native'
 import { StackView } from 'react-navigation-stack'
 
-class DetailPage extends StackView {
+class HomePage extends StackView {
+  static navigationOptions = {
+    title: 'Home',
+  }
+  
+  constructor(props: any) {
+    super(props)
+    console.warn()
+  }
+  componentDidMount() {
+    console.warn('HomePage Did Mount')
+  }
+  componentWillUnmount() {
+    console.warn('HomePage will unmount')
+  }
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -20,4 +34,4 @@ class DetailPage extends StackView {
   }
 }
 
-export default DetailPage
+export default HomePage
