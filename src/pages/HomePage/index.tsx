@@ -17,17 +17,26 @@ class HomePage extends StackView {
   componentWillUnmount() {
     console.warn('HomePage will unmount')
   }
+
+  handleTurnToHello = () => {
+    this.props.navigation.navigate('Hello')
+  }
+
+  handleTurnToDetail = () => {
+    this.props.navigation.navigate('Details')
+  }
+
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Home Screen</Text>
         <Button
           title="Go to Hello"
-          onPress={() => this.props.navigation.navigate('Hello')}
+          onPress={this.handleTurnToHello}
         />
         <Button
           title="Go to Details"
-          onPress={()=> this.props.navigation.navigate('Details')}
+          onPress={this.handleTurnToDetail}
           />
       </View>
     );
