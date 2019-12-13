@@ -7,8 +7,10 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native'
-import {StackView} from 'react-navigation-stack'
+import { NavigationStackScreenProps } from 'react-navigation-stack'
 import {SCEENS} from '../../utils/constant'
+import { observer, inject } from 'mobx-react'
+import RootStore from '../../stores/root'
 
 // TODO: move to ./style.ts
 const detailBg: StyleProp<ViewStyle> = {
@@ -31,7 +33,13 @@ const styles = StyleSheet.create({
   },
 })
 
-class DetailsScreen extends StackView {
+interface Props extends NavigationStackScreenProps {
+  root: RootStore
+}
+
+@inject('root')
+@observer
+class DetailsScreen extends React.Component<Props> {
   componentWillUnmount() {
     console.warn('DetailsScreen will unmount')
   }
@@ -55,6 +63,16 @@ class DetailsScreen extends StackView {
           title="Go to Hello"
           onPress={()=> this.props.navigation.navigate(SCEENS.HELLO)}
           />
+        <Button
+          title="add"
+          onPress={()=> this.props.root.add()}
+          />
+          <Button
+          title="minus"
+          onPress={()=> this.props.root.minus()}
+          />
+
+        <Text>{this.props.root.count}</Text>
         <Text style={styles.red}>just red</Text>
         <Text style={styles.bigBlue}>just bigBlue</Text>
         <Text style={[styles.bigBlue, styles.red]}>bigBlue, then red</Text>
