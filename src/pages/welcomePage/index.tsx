@@ -9,6 +9,8 @@ import {StatusBar, Text, StyleSheet, View, Platform, Button} from 'react-native'
 import Swiper from 'react-native-swiper'
 // ! Swiper use ComponentWillUpdate so the yellow warn show
 
+import {noShadowStyle} from '../../utils/styles'
+
 const styles = StyleSheet.create({
   wrapper: {},
   slide1: {
@@ -81,15 +83,7 @@ class WelcomePage extends Component<NavigationStackScreenProps> {
     // title: "Crypto World"
     headerTitle: HeaderTitle,
     headerStyle: {
-      ...Platform.select({
-        ios: {
-          borderBottomWidth: 0,
-          borderBottomColor: '#000',
-        },
-        android: {
-          elevation: 0,
-        },
-      }),
+      ...noShadowStyle,
     },
   }
 

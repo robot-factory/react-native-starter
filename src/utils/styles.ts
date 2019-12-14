@@ -2,7 +2,7 @@ import {
   Platform
 } from 'react-native'
 
-export const nowShadowStyle = Platform.select({
+export const noShadowStyle = Platform.select({
   ios: {
     borderBottomWidth: 0,
     borderBottomColor: '#000'

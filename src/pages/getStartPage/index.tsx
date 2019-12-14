@@ -6,7 +6,7 @@ import { NavigationStackScreenProps } from 'react-navigation-stack'
 class GetStartPage extends React.Component<NavigationStackScreenProps> {
 
   handleToCreate = () => {
-    this.props.navigation.navigate('create')
+    this.props.navigation.navigate('createWallet')
   }
 
   handleToImport = () => {
