@@ -1,7 +1,7 @@
-import Hello from '../pages/HelloPage'
-import HomePage from '../pages/HomePage'
-import Details from '../pages/DetailPage'
-import {SCEENS} from '../utils/constant'
+import Hello from '../../pages/HelloPage'
+import HomePage from '../../pages/HomePage'
+import Details from '../../pages/DetailPage'
+import {SCEENS} from '../../utils/constant'
 
 export const routeConfigMap = {
   [SCEENS.HOME]: {
