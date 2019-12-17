@@ -5,10 +5,138 @@ import {
   TextInput,
   NativeSyntheticEvent,
   TextInputEndEditingEventData,
-  TouchableWithoutFeedback,
+  StyleSheet,
+  Platform,
+  Animated,
 } from 'react-native'
 import {NavigationStackScreenProps} from 'react-navigation-stack'
+import {colors, fontStyles} from '@/styles/common'
 
+const styles = StyleSheet.create({
+  mainWrapper: {
+    backgroundColor: '#fff',
+    flex: 1,
+  },
+  wrapper: {
+    flex: 1,
+    paddingHorizontal: 20,
+  },
+  title: {
+    fontSize: Platform.OS === 'android' ? 20 : 25,
+    marginTop: 20,
+    marginBottom: 20,
+    color: colors.fontPrimary,
+    justifyContent: 'center',
+    textAlign: 'center',
+    ...fontStyles.bold,
+  },
+  field: {
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  label: {
+    position: 'absolute',
+    marginTop: -35,
+    marginLeft: 5,
+    fontSize: 16,
+    color: colors.fontSecondary,
+    textAlign: 'left',
+    ...fontStyles.normal,
+  },
+  input: {
+    borderBottomWidth: Platform.OS === 'android' ? 0 : 1,
+    borderBottomColor: colors.grey100,
+    paddingLeft: 0,
+    paddingVertical: 10,
+    borderRadius: 4,
+    fontSize: Platform.OS === 'android' ? 14 : 20,
+    ...fontStyles.normal,
+  },
+  ctaWrapper: {
+    marginTop: 20,
+  },
+  errorMsg: {
+    color: colors.red,
+    textAlign: 'center',
+    ...fontStyles.normal,
+  },
+  seedPhrase: {
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: colors.white,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    fontSize: 20,
+    borderRadius: 10,
+    minHeight: 110,
+    height: 'auto',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.grey100,
+    ...fontStyles.normal,
+  },
+  biometrics: {
+    alignItems: 'flex-start',
+    marginTop: 30,
+    marginBottom: 30,
+  },
+  biometryLabel: {
+    flex: 1,
+    fontSize: 16,
+    ...fontStyles.normal,
+  },
+  biometrySwitch: {
+    marginTop: 10,
+    flex: 0,
+  },
+  termsAndConditions: {
+    paddingVertical: 30,
+  },
+  passwordStrengthLabel: {
+    height: 20,
+    marginLeft: 5,
+    marginTop: 10,
+    fontSize: 12,
+    color: colors.fontSecondary,
+    textAlign: 'left',
+    ...fontStyles.normal,
+  },
+  // eslint-disable-next-line react-native/no-unused-styles
+  strength_weak: {
+    color: colors.red,
+  },
+  // eslint-disable-next-line react-native/no-unused-styles
+  strength_good: {
+    color: colors.blue,
+  },
+  // eslint-disable-next-line react-native/no-unused-styles
+  strength_strong: {
+    color: colors.green300,
+  },
+  showHideToggle: {
+    backgroundColor: colors.white,
+    position: 'absolute',
+    marginTop: 8,
+    alignSelf: 'flex-end',
+  },
+  showMatchingPasswords: {
+    position: 'absolute',
+    marginTop: 8,
+    alignSelf: 'flex-end',
+  },
+  qrCode: {
+    marginTop: -50,
+    marginBottom: 30,
+    alignSelf: 'flex-end',
+    marginRight: 10,
+    borderWidth: 1,
+    borderRadius: 6,
+    borderColor: colors.grey100,
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+  },
+})
 class CreateWalletPage extends React.Component<NavigationStackScreenProps> {
   private mnemonicInput: TextInput | undefined
   constructor(props: NavigationStackScreenProps) {
@@ -24,11 +152,13 @@ class CreateWalletPage extends React.Component<NavigationStackScreenProps> {
   }
 
   private mountMnemonicInput = (instance: TextInput) => {
+    console.warn('mount input')
     this.mnemonicInput = instance
   }
 
-  private onPress() {
+  onPress() {
     if (this.mnemonicInput) {
+      console.warn('blur')
       this.mnemonicInput.blur()
     }
   }
@@ -56,10 +186,7 @@ class CreateWalletPage extends React.Component<NavigationStackScreenProps> {
   render() {
     return (
       <View>
-        <TouchableWithoutFeedback
-          onPress={this.onPress}
-          style={{backgroundColor: 'blue', width: '100%', height: 400}}
-          >
+        <View>
           <Text>enter your mnemonic</Text>
           <TextInput
             ref={this.mountMnemonicInput}
@@ -84,8 +211,40 @@ class CreateWalletPage extends React.Component<NavigationStackScreenProps> {
             onChangeText={this.handelOnChangeText} // onChangeText 文本变化是会调用(处于edite状态)
             onEndEditing={this.handleEndEnterMnemonic}
             onSubmitEditing={this.handleSubmitEnterMnemonic}
+            blurOnSubmit={true}
           />
-        </TouchableWithoutFeedback>
+        </View>
+        <View style={styles.field}>
+          <Animated.Text
+            style={[
+              styles.label,
+              {
+                transform: [
+                  {scale: this.state.labelsScaleNew},
+                  {translateX: labelsScaleNewX},
+                  {translateY: labelsScaleNewY},
+                ],
+              },
+            ]}>
+            import_from_seed.new_password
+          </Animated.Text>
+          <TextInput
+            ref={this.passwordInput}
+            style={styles.input}
+            testID={'input-password-field'}
+            value={this.state.password}
+            onChangeText={this.onPasswordChange} // eslint-disable-line  react/jsx-no-bind
+            secureTextEntry={this.state.secureTextEntry}
+            placeholder={''}
+            placeholderTextColor={colors.grey100}
+            underlineColorAndroid={colors.grey100}
+            onSubmitEditing={this.jumpToConfirmPassword}
+            returnKeyType={'next'}
+            onFocus={() => this.animateOutLabel('new')} // eslint-disable-line  react/jsx-no-bind
+            onBlur={() => this.animateInLabel('new')} // eslint-disable-line  react/jsx-no-bind
+            autoCapitalize="none"
+          />
+        </View>
       </View>
     )
   }
